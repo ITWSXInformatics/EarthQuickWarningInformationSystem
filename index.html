@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		
+		<!-- Personal CSS -->
+		<link rel="stylesheet" href="./css/index.css">
+
+    <title>EarthQuick</title>
+  </head>
+  <body>
+    <h1>EarthQuick Near-Real-Time Information System</h1>
+		
+		<br/>
+		
+		<div id="map">
+			<iframe
+				width="600"
+				height="450"
+				frameborder="0" style="border:0"
+				src="https://www.google.com/maps/embed/v1/view
+					?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s
+					&center=42.7298,-73.6789
+					&zoom=18
+					&maptype=satellite">
+			</iframe>
+			<!-- src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s&q=RPI,Troy+NY" allowfullscreen> -->
+		</div>
+		
+		<br/>
+		
+		<div id="inputs">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<input class="form-control" type="text" placeholder="Time Frame" id="timeFrame">
+					</div>
+					<div class="col-sm">
+						<input class="form-control" type="text" placeholder="Radius" id="radius">
+					</div>
+					<div class="col-sm">
+						<input class="form-control" type="text" placeholder="Earthquake Name" id="earthquakeName">
+					</div>
+				</div>
+			</div>
+			
+			<br/>
+			
+			<button type="button" class="btn btn-secondary" onclick="submit();">Search</button>
+			
+		</div>
+		
+		<!-- Personal JavaScript -->
+		<script src="./js/index.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
