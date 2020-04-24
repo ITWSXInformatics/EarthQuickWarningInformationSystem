@@ -1,10 +1,10 @@
 function submit() {
-	var timeFrame = document.getElementById("timeFrame").value;
-	var rad = document.getElementById("radius").value;
-	var name = document.getElementById("earthquakeName").value;
+	var timeDistance = document.getElementById("timeDistance").value;
+	var radius = document.getElementById("radius").value;
+	var magnitude = document.getElementById("magnitude").value;
 	
-	console.log(timeFrame);
-	console.log(rad);
-	console.log(name);
+	console.log(timeDistance);
+	console.log(radius);
+	console.log(magnitude);
 	
 }
