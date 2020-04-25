@@ -5,11 +5,19 @@ var path = require('path');
 var fetch = require('isomorphic-fetch');
 var cors = require('cors');
 
+require('dotenv').config();
+
+const http = require('http');
+const querystring = require('querystring');
+
 
 const app = express();
-const port = 6000;
+const port = 6789;
+
+
 app.use(express.static(__dirname + '/js'));
 app.use(express.static(__dirname + '/css'));
+
 // parse application/json
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
@@ -19,9 +27,27 @@ app.use(bodyParser.raw());
 // parse text
 app.use(bodyParser.text());
 
-app.get('/', (req, res) => res.sendfile('index.html'));
+app.use("/", express.static(__dirname)); 
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+
+app.get('/', function (req, res) { 
+
+	// res.redirect('/');
+	console.log(req);
+	res.sendfile('./index.html');
+
+});
+
+
+
+const server = http.createServer(app);
+
+server.listen(port);
+
+
+
+// app.listen(port, 'localhost');
 
 async function get_earthquake_list_by_timestamp(start_time, end_time){
 
@@ -37,26 +63,90 @@ async function get_earthquake_list_by_timestamp(start_time, end_time){
     return ret;
 }
 
+
+async function geocode_address(address){
+	var base_url = "https://api.tomtom.com/search/2/geocode/";
+	//.json?key=
+	base_url += querystring.escape(address);
+	base_url += ".json?key=";
+	base_url += process.env.GEOCODING_API_KEY;
+	var result = await fetch(base_url, {
+        method: 'GET'
+    })
+
+    let ret = await result.json();
+    return ret;
+
+}
+
+
+
+
+
+
+
+
 //API developments goes here
 
-app.post("/search",(req,res)=>{
+app.post("/search",async function (req,res_search){
 	console.log(req.body);
 
-	//get how many hours ago the time frame is
-	var hoursAgo = req.body["timeDistance"];
-	
-	//get the current time and subtract the entered amount of hours
-	var timeFrame = new Date();
-	timeFrame.setHours(timeFrame.getHours() - hoursAgo);
-	
-	//format the string to something like this 2020-04-23T23:34:20.536Z
-	stringTime = timeFrame.toISOString();
-	
 	//message for API call
-	var msgPath = "/fdsnws/event/1/query?format=geojson&";
+	var msgPath = "/fdsnws/event/1/query?format=geojson";
+
+	//get how many hours ago the time frame is
+	if("timeDistance" in req.body){
+		var hoursAgo = req.body["timeDistance"];
+
+		//get the current time and subtract the entered amount of hours
+		var timeFrame = new Date();
+		timeFrame.setHours(timeFrame.getHours() - hoursAgo);
+			
+
+		//format the string to something like this 2020-04-23T23:34:20.536Z
+		var stringTime = timeFrame.toISOString();
+
+		//Add time query
+		msgPath += "&starttime=" + stringTime;
+
+
+	}
+
+	var latitude = "";
+	var longitude = "";
+
+	if("address" in req.body && "radius" in req.body){
+
+		var radius = req.body["radius"];
+		msgPath += "&maxradius=" + radius;
+
+		var address = req.body["address"];
+		var geocode_result = await geocode_address(address);
+		var latitude = geocode_result["results"][0]["position"]["lat"];
+		var longitude = geocode_result["results"][0]["position"]["lon"];
+		msgPath += ("&longitude=" + longitude);
+		msgPath += ("&latitude=" + latitude);
+		console.log("LAT");
+		console.log(latitude);
+		console.log("LON");
+		console.log(longitude);
+
+
+	}
+
+
+	if("magnitude" in req.body){
+		var magnitude = req.body["magnitude"];
+		msgPath += "&minmagnitude=" + magnitude;
+	}
+
+	console.log(msgPath);
 	
-	//Add time query
-	msgPath += "starttime=" + stringTime;
+	
+
+	
+	
+	
 
 	//use usgs api here, and return data
 	
@@ -77,11 +167,18 @@ app.post("/search",(req,res)=>{
 			var retInfo = JSON.parse(ret);
 			// Just log the location of the earthquake at the 0th index
 			console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
+			res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
+			return;
 		});
+
+		
+	}).on('error', (e) => {
+  		res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": ""});
+
 	}).end();
 
 
-	res.send("good bye and good night");
+	// res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": []});
 
 });
 
@@ -110,7 +207,7 @@ app.post("/api/timeframe",async (req,res)=>{
 });
 
 
-app.get("api/address3",(req,res)=>{
+app.get("/api/radius",(req,res)=>{
 
 
 });
