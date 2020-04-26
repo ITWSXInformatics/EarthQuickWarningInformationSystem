@@ -158,7 +158,7 @@ app.post("/search",async function (req,res_search){
 			// Just log the location of the earthquake at the 0th index
 			console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
 			console.log(retInfo);
-			console.log(retInfo["features"][0]["properties"])
+			console.log(retInfo["features"][0]["properties"]);
 			res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
 			return;
 		});
