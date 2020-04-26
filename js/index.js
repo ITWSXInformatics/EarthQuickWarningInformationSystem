@@ -37,8 +37,9 @@ app.controller('earth', function($scope,$http) {
 			listoutput = "";
 			for (var i=0; i<quake_list.length; i++) {
 				item = quake_list[i]["properties"];
-				listoutput += "<li>" + item["place"] + " " + item["mag"];
-				listoutput += " " + item["type"] + "</li>";
+				edate = new Date(item["time"]);
+				listoutput += "<li>Location: " + item["place"] + "<br>   Magnitude: " + item["mag"];
+				listoutput += "<br>  Type: " + item["type"] + "<br> Date: " + edate.toISOString() + "</li>";
 			}
 			document.getElementById("elist").innerHTML = listoutput;
 		}, function errorCallback(response) {
@@ -53,3 +54,4 @@ app.controller('earth', function($scope,$http) {
 
 
 
+ 
