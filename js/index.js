@@ -6,8 +6,6 @@ app.controller('earth', function($scope,$http) {
 		let magnitude = document.getElementById("magnitude").value;
 		let address = document.getElementById("addr").value;
 
-
-
 		$http({
 			method: 'POST',
 			url: '/search',

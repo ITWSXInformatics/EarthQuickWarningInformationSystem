@@ -15,91 +15,106 @@
     <title>EarthQuick</title>
 </head>
 <body ng-app="app" ng-controller="earth">
-<h1>EarthQuick Near-Real-Time Information System</h1>
+<div class="container row">
 
-<br/>
+    <div class="col-10 border-right border-info">
+
+        <h1>EarthQuick Near-Real-Time Information System</h1>
+
+        <br/>
 
 
-
-<div id="map">
-    <iframe
-            id = "frame_map"
-            width="600"
-            height="450"
-            frameborder="0" style="border:0"
-            src="https://www.google.com/maps/embed/v1/view
+        <div id="map">
+            <iframe
+                    id="frame_map"
+                    width="570"
+                    height="400"
+                    frameborder="0" style="border:0"
+                    src="https://www.google.com/maps/embed/v1/view
 					?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s
 					&center=42.7298,-73.6789
 					&zoom=18
 					&maptype=satellite">
-    </iframe>
-    <!-- src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s&q=RPI,Troy+NY" allowfullscreen> -->
-</div>
-
-<br/>
-
-<div id="inputs">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <div class="row">
-                    <select class="col-8 form-control" type="text"  id="timeDistance">
-                        <option>1</option>
-                        <option>2</option>
-                        <option selected="selected">6</option>
-                        <option>12</option>
-                        <option>24</option>
-                    </select>
-                    <h5 class="col-4 pt-2 text-center">hours</h5>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="row">
-                    <select class="col-8 form-control" type="text"  id="radius">
-                        <option>10</option>
-                        <option selected="selected">100</option>
-                        <option>500</option>
-                        <option>1000</option>
-                        <option>2000</option>
-                    </select>
-                    <h5 class="col-4 pt-2 text-center">miles</h5>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="row">
-                    <select class="col-8 form-control" type="text"  id="magnitude">
-                        <option>1</option>
-                        <option>2</option>
-                        <option selected="selected">3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                    <h5 class="col-4 pt-2 text-center">magnitude</h5>
-                </div>
-            </div>
+            </iframe>
+            <!-- src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s&q=RPI,Troy+NY" allowfullscreen> -->
         </div>
 
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-group">
-                    <h5 class="col-4 pt-2 text-center">Address:</h5>
+        <br/>
 
-                    <textarea class="form-control" id="addr" rows="3"></textarea>
+        <div id="inputs">
+            <div class="container mb-2">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="row">
+                            <select class="col-8 form-control" type="text" id="timeDistance">
+                                <option>1</option>
+                                <option>2</option>
+                                <option selected="selected">6</option>
+                                <option>12</option>
+                                <option>24</option>
+                            </select>
+                            <h5 class="col-4 pt-2 text-center">hours</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="row">
+                            <select class="col-8 form-control" type="text" id="radius">
+                                <option>10</option>
+                                <option selected="selected">100</option>
+                                <option>500</option>
+                                <option>1000</option>
+                                <option>2000</option>
+                            </select>
+                            <h5 class="col-4 pt-2 text-center">miles</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="row">
+                            <select class="col-8 form-control" type="text" id="magnitude">
+                                <option>1</option>
+                                <option>2</option>
+                                <option selected="selected">3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                            <h5 class="col-4 pt-2 text-center">magnitude</h5>
+                        </div>
+                    </div>
+
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Optional Address</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="With textarea" id="addr">
+                    </div>
                 </div>
             </div>
+
+
+            <button type="button" class="btn btn-primary" ng-click="submit();">Search</button>
+
         </div>
+
     </div>
 
-    <br/>
 
-    <button type="button" class="btn btn-primary" ng-click="submit();">Search</button>
+    <div class="col-2">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+    </div>
+
 
 </div>
+
 
 <!-- Personal JavaScript -->
 <script src="index.js"></script>
