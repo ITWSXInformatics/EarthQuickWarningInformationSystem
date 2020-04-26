@@ -114,7 +114,7 @@ app.post("/search",async function (req,res_search){
 	if("address" in req.body && "radius" in req.body){
 
 		var radius = req.body["radius"];
-		msgPath += "&maxradius=" + radius;
+		msgPath += "&maxradiuskm=" + radius;
 
 		var address = req.body["address"];
 		var geocode_result = await geocode_address(address);
@@ -156,9 +156,12 @@ app.post("/search",async function (req,res_search){
 		res.on('data', function (ret) {
 			var retInfo = JSON.parse(ret);
 			// Just log the location of the earthquake at the 0th index
-			console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
+			if(retInfo["features"].length > 0){
+				console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
+				console.log(retInfo["features"][0]["properties"])
+			}
 			console.log(retInfo);
-			console.log(retInfo["features"][0]["properties"])
+		
 			res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
 			return;
 		});
