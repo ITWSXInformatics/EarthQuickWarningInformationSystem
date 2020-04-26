@@ -72,16 +72,12 @@ async function geocode_address(address){
 	base_url += process.env.GEOCODING_API_KEY;
 	var result = await fetch(base_url, {
         method: 'GET'
-    })
+    });
 
     let ret = await result.json();
     return ret;
 
 }
-
-
-
-
 
 
 
@@ -141,12 +137,6 @@ app.post("/search",async function (req,res_search){
 	}
 
 	console.log(msgPath);
-	
-	
-
-	
-	
-	
 
 	//use usgs api here, and return data
 	
@@ -182,10 +172,6 @@ app.post("/search",async function (req,res_search){
 
 });
 
-app.get("api/address",(req,res)=>{
-
-
-});
 
 
 //Example to test:
@@ -202,12 +188,6 @@ app.post("/api/timeframe",async (req,res)=>{
 	 var earthquake_list = await get_earthquake_list_by_timestamp(start_time, end_time);
 	 console.log(earthquake_list);
 	 res.send(JSON.stringify({"eq_list": earthquake_list}));
-
-
-});
-
-
-app.get("/api/radius",(req,res)=>{
 
 
 });
