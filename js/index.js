@@ -31,6 +31,16 @@ app.controller('earth', function($scope,$http) {
 				document.getElementById("frame_map").src = modified_address_url;
 			}
 			console.log("success test");
+			quake_list = response["data"]["quake_list"]["features"];
+			console.log("quake_list");
+			console.log(quake_list);
+			listoutput = "";
+			for (var i=0; i<quake_list.length; i++) {
+				item = quake_list[i]["properties"];
+				listoutput += "<li>" + item["place"] + " " + item["mag"];
+				listoutput += " " + item["type"] + "</li>";
+			}
+			document.getElementById("elist").innerHTML = listoutput;
 		}, function errorCallback(response) {
 			console.log("test failed");
 			console.log(response);
