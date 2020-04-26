@@ -27,7 +27,7 @@ app.controller('earth', function($scope,$http) {
 				modified_address_url += response["data"]["latitude"];
 				modified_address_url += ",";
 				modified_address_url += response["data"]["longitude"];
-				modified_address_url += "&zoom=18&maptype=satellite";
+				modified_address_url += "&zoom=18&maptype=roadmap";
 				document.getElementById("frame_map").src = modified_address_url;
 			}
 			console.log("success test");
