@@ -171,33 +171,18 @@ app.post("/search",async function (req,res_search){
 		console.log('STATUS: ' + res.statusCode);
 		console.log('HEADERS: ' + JSON.stringify(res.headers));
 		res.setEncoding('utf8');
-
-
-
-		        
-        	res.on('data', function (ret) {
-        		 try {
-
-					var retInfo = JSON.parse(ret);
-					// Just log the location of the earthquake at the 0th index
-					if(retInfo["features"].length > 0){
-						console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
-						console.log(retInfo["features"][0]["properties"])
-					}
-					console.log(retInfo);
-				
-					res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
-				} catch (err) {
-			        console.error("Error:", err);
-			        // throw err;
-			        // res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": ""});
-
-		        
-	   			}
-			});
-	    
-	
-
+		res.on('data', function (ret) {
+			var retInfo = JSON.parse(ret);
+			// Just log the location of the earthquake at the 0th index
+			if(retInfo["features"].length > 0){
+				console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
+				console.log(retInfo["features"][0]["properties"])
+			}
+			console.log(retInfo);
+			
+			res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
+			return;
+		});
 
 		
 	}).on('error', (e) => {

@@ -1,7 +1,10 @@
 
 let app = angular.module('app', []);
 app.controller('earth', function($scope,$http) {
+
+	$scope.elist=[];
 	$scope.submit = async function(){
+
 		let timeDistance = document.getElementById("timeDistance").value;
 		let radius = document.getElementById("radius").value;
 		let magnitude = document.getElementById("magnitude").value;
@@ -64,7 +67,7 @@ app.controller('earth', function($scope,$http) {
 				modified_address_url += response["data"]["latitude"];
 				modified_address_url += ",";
 				modified_address_url += response["data"]["longitude"];
-				modified_address_url += "&zoom=18&maptype=roadmap";
+				modified_address_url += "&zoom=18&maptype=satellite";
 				document.getElementById("frame_map").src = modified_address_url;
 			}
 			console.log("success test");
@@ -72,13 +75,22 @@ app.controller('earth', function($scope,$http) {
 			console.log("quake_list");
 			console.log(quake_list);
 			listoutput = "";
+
 			for (var i=0; i<quake_list.length; i++) {
 				item = quake_list[i]["properties"];
-				edate = new Date(item["time"]);
-				listoutput += "<li>Location: " + item["place"] + "<br>   Magnitude: " + item["mag"];
-				listoutput += "<br>  Type: " + item["type"] + "<br> Date: " + edate.toISOString() + "</li>";
+                var d = new Date(item['time']);
+                var n = d.toISOString();
+
+                $scope.elist.push({
+                    location:item['place'],
+                    time:n,
+                    mag:item["mag"],
+                    type:item["type"]
+                });
+				listoutput += "<li>" + item["place"] + " " + item["mag"];
+				listoutput += " " + item["type"] + "</li>";
 			}
-			document.getElementById("elist").innerHTML = listoutput;
+			// document.getElementById("elist").innerHTML = listoutput;
 		}, function errorCallback(response) {
 			console.log("test failed");
 			console.log(response);
@@ -106,4 +118,3 @@ app.controller('earth', function($scope,$http) {
 
 
 
- 

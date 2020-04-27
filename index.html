@@ -17,7 +17,7 @@
 <body ng-app="app" ng-controller="earth">
 <div class="container row">
 
-    <div class="col-10 border-right border-info">
+    <div class="col-8 border-right border-info">
 
         <h1>EarthQuick Near-Real-Time Information System</h1>
 
@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-sm">
                         <div class="row">
-                            <select class="col-8 form-control" type="text" id="magnitude">
+                            <select class="col-4 form-control" type="text" id="magnitude">
                                 <option>1</option>
                                 <option>2</option>
                                 <option selected="selected">3</option>
@@ -118,12 +118,28 @@
     </div>
 
 
-    <div class="col-2" id="elist">
-        <ul>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-        </ul>
+
+
+    <div class="col-4">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Location Description</th>
+                <th scope="col">Time</th>
+                <th scope="col">Magnitude</th>
+                <th scope="col">Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="e in elist">
+                <th scope="row">{{e.location}}</th>
+                <td>{{e.time}}</td>
+                <td>{{e.mag}}</td>
+                <td>{{e.type}}</td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 
 
