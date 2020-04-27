@@ -128,11 +128,18 @@ app.post("/search",async function (req,res_search){
 
 			var address = req.body["address"];
 			var geocode_result = await geocode_address(address);
+			// console.log("=====",geocode_result);
 			try {
-				var latitude = geocode_result["results"][0]["position"]["lat"];
-				var longitude = geocode_result["results"][0]["position"]["lon"];
-				msgPath += ("&longitude=" + longitude);
-				msgPath += ("&latitude=" + latitude);
+			    // console.log("geocode_result['summary']['numResults']:",geocode_result['summary']['numResults']);
+			    if(geocode_result['summary']['numResults']>0){
+                    var latitude = geocode_result["results"][0]["position"]["lat"];
+                    var longitude = geocode_result["results"][0]["position"]["lon"];
+                    msgPath += ("&longitude=" + longitude);
+                    msgPath += ("&latitude=" + latitude);
+                }else{
+			        res_search.status(201).send("invalid address");
+			        return;
+                }
 			}catch(err){
 				 console.error("Error:", err);
 		        latitude = "";
@@ -174,7 +181,7 @@ app.post("/search",async function (req,res_search){
 		res.on('data', function (ret) {
 			var retInfo = JSON.parse(ret);
 			// Just log the location of the earthquake at the 0th index
-			if(retInfo["features"].length > 0){
+			if(retInfo["metadata"]['count'] > 0){
 				console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
 				console.log(retInfo["features"][0]["properties"])
 			}

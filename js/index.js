@@ -58,7 +58,10 @@ app.controller('earth', function($scope,$http) {
 			// this callback will be called asynchronously
 			// when the response is available
 
-
+			if(response['status']===201){
+				alert("invalid address, try again");
+			}
+			
 
 			if("latitude" in response["data"] && response["data"]["latitude"] != "" &&
 				"longitude" in response["data"] && response["data"]["longitude"] != ""){
