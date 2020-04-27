@@ -60,6 +60,7 @@ app.controller('earth', function($scope,$http) {
 
 			if(response['status']===201){
 				alert("invalid address, try again");
+				return;
 			}
 			
 
