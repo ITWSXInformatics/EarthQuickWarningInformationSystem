@@ -87,12 +87,26 @@
                     </div>
 
 
-                    <div class="input-group">
+                     <div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-secondary active">
+                        <input type="radio" name="options" id="option1" autocomplete="off" ng-click="updateText();" checked> Address
+                      </label>
+                      <label class="btn btn-secondary">
+                        <input type="radio" name="options" id="option2" autocomplete="off" ng-click="updateText();"> Default Address(By Location)
+                      </label>
+                    </div>
+                     <div class="input-group" display = "inline-block" id= "optional_address">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Optional Address</span>
                         </div>
                         <input type="text" class="form-control" aria-label="With textarea" id="addr">
                     </div>
+
+
+                   
+                   
+
+                  
                 </div>
             </div>
 

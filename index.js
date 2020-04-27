@@ -116,17 +116,28 @@ app.post("/search",async function (req,res_search){
 		var radius = req.body["radius"];
 		msgPath += "&maxradiuskm=" + radius;
 
-		var address = req.body["address"];
-		var geocode_result = await geocode_address(address);
-		try {
-			var latitude = geocode_result["results"][0]["position"]["lat"];
-			var longitude = geocode_result["results"][0]["position"]["lon"];
+
+
+		if("latitude" in req.body && "longitude" in req.body
+			&& req.body["latitude"] != "" && req.body["longitude"] != ""){
+			var latitude = req.body["latitude"];
+			var longitude = req.body["longitude"];
 			msgPath += ("&longitude=" + longitude);
 			msgPath += ("&latitude=" + latitude);
-		}catch(err){
-			 console.error("Error:", err);
-	        latitude = "";
-	        longitude = "";
+		}else{
+
+			var address = req.body["address"];
+			var geocode_result = await geocode_address(address);
+			try {
+				var latitude = geocode_result["results"][0]["position"]["lat"];
+				var longitude = geocode_result["results"][0]["position"]["lon"];
+				msgPath += ("&longitude=" + longitude);
+				msgPath += ("&latitude=" + latitude);
+			}catch(err){
+				 console.error("Error:", err);
+		        latitude = "";
+		        longitude = "";
+			}
 		}
 
 		console.log("LAT");
