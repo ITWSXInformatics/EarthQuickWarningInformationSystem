@@ -59,7 +59,7 @@ app.controller('earth', function($scope,$http) {
 			// when the response is available
 
 			if(response['status']===201){
-				alert("invalid address, try again");
+				alert("invalid address, try to include state name, zip code, or country name");
 				return;
 			}
 			
@@ -107,10 +107,12 @@ app.controller('earth', function($scope,$http) {
 	$scope.updateText = async function(){
 		var checked_left = document.getElementById('option1').checked;
 		console.log(checked_left);
-		if(checked_left == true){
-			document.getElementById('optional_address').style.display = "inline-block";
+		if(checked_left === true){
+			$("#optional_address").show();
+			// document.getElementById('optional_address').show();
 		}else{
-			document.getElementById('optional_address').style.display = "none";
+			$("#optional_address").hide();
+			// document.getElementById('optional_address').hide();
 		}
 		
 		// console.log(data);
