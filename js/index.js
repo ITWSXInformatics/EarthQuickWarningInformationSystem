@@ -30,7 +30,7 @@ async function initMap() {
     });
 
 
-
+		/*
     $("#button").click(() => {
         //if(not default ){get new ip}
         if (document.getElementById('option1').checked) {
@@ -47,6 +47,7 @@ async function initMap() {
             map.setZoom(9);
         }
     })
+		*/
 
 }
 
@@ -132,6 +133,68 @@ app.controller('earth', function ($scope, $http) {
             console.log("quake_list");
             console.log(quake_list);
             listoutput = "";
+					
+						//Warnings
+						var danger = '<br /> \
+							<div class="alert alert-danger" role="alert"> \
+								<i class="fas fa-exclamation-triangle"></i> There is an earthquake in your area. Please take shelter. <i class="fas fa-exclamation-triangle"></i> \
+							</div>'
+					
+						var warning = '<br /> \
+							<div class="alert alert-warning" role="alert"> \
+								<i class="fas fa-exclamation"></i> There is an earthquake in close by but not in your immediate area. <i class="fas fa-exclamation"></i> \
+							</div>'
+					
+						var safe = '<br /> \
+							<div class="alert alert-success" role="alert"> \
+								<i class="fas fa-thumbs-up"></i> There are no earthquakes in your area <i class="fas fa-thumbs-up"></i> \
+							</div>'
+					
+						document.getElementById("warningArea").innerHTML = safe;
+					
+						//Update Google Maps
+						if (document.getElementById('option1').checked) {
+							
+								let latitude = "";
+								let longitude = "";
+								let resp = await fetch('http://ipgeolocation.com?json=1');
+								let data = await resp.json();
+								console.log(data);
+								var token_comma_pos = data["coords"].search(",");
+								latitude = response["data"]["latitude"]; //data["coords"].substr(0, token_comma_pos);
+								longitude = response["data"]["longitude"]; //data["coords"].substr(token_comma_pos + 1);
+								var myLatLng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+								console.log(myLatLng);
+								var markers = [];
+								var map = new google.maps.Map(document.getElementById('map'), {
+										zoom: 6,
+										center: myLatLng,
+								});
+
+								console.log(map);
+								var cityCircle = new google.maps.Circle({
+										strokeColor: '#9fff82',
+										strokeOpacity: 0.8,
+										strokeWeight: 2,
+										fillColor: '#9fff82',
+										fillOpacity: 0.35,
+										map: map,
+										center: myLatLng,
+										radius: radius * 1609.34
+								});
+							
+								//reset map
+								// add new markers here
+								// Adds a marker to the map and push to the array.
+								var marker = new google.maps.Marker({
+										position: {lat:42,lng:-71},
+										map: map
+								});
+								//get new address, and create new makers
+								map.setCenter({lat:42,lng:-70});
+								// accordingly to radius
+								map.setZoom(9);
+						}
 
             for (var i = 0; i < quake_list.length; i++) {
                 item = quake_list[i]["properties"];
