@@ -175,21 +175,27 @@ app.post("/search",async function (req,res_search){
 
 	// Make the API request and log the information recieved
 	https.request(options, function(res) {
-		console.log('STATUS: ' + res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers));
-		res.setEncoding('utf8');
-		res.on('data', function (ret) {
-			var retInfo = JSON.parse(ret);
-			// Just log the location of the earthquake at the 0th index
-			if(retInfo["metadata"]['count'] > 0){
-				console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
-				console.log(retInfo["features"][0]["properties"])
-			}
-			console.log(retInfo);
-			
-			res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
+		if(res.statusCode===400){
+			res_search.status(201).send("invalid address");
 			return;
-		});
+		}else{
+			console.log('STATUS: ' + res.statusCode);
+			console.log('HEADERS: ' + JSON.stringify(res.headers));
+			res.setEncoding('utf8');
+			res.on('data', function (ret) {
+				var retInfo = JSON.parse(ret);
+				// Just log the location of the earthquake at the 0th index
+				if(retInfo["metadata"]['count'] > 0){
+					console.log('BODY: ' + retInfo["features"][0]["properties"]["place"]);
+					console.log(retInfo["features"][0]["properties"])
+				}
+				console.log(retInfo);
+
+				res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": retInfo});
+				return;
+			});
+
+		}
 
 		
 	}).on('error', (e) => {

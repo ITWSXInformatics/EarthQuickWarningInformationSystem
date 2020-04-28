@@ -12,6 +12,9 @@
     <!-- Personal CSS -->
     <link rel="stylesheet" href="index.css">
     <script src="angular.min.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAg8hdRn_WGviNwEHEcV7WjlcAt-wnXkVY&callback=initMap">
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.0.slim.min.js" integrity="sha256-MlusDLJIP1GRgLrOflUQtshyP0TwT/RHXsI1wWGnQhs=" crossorigin="anonymous"></script>
     <title>EarthQuick</title>
 </head>
@@ -25,20 +28,10 @@
         <br/>
 
 
-        <div id="map">
-            <iframe
-                    id="frame_map"
-                    width="570"
-                    height="400"
-                    frameborder="0" style="border:0"
-                    src="https://www.google.com/maps/embed/v1/view
-					?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s
-					&center=42.7298,-73.6789
-					&zoom=18
-					&maptype=roadmap">
-            </iframe>
-            <!-- src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s&q=RPI,Troy+NY" allowfullscreen> -->
-        </div>
+        <div id="map"></div>
+
+
+
 
         <br/>
 
@@ -91,10 +84,10 @@
                     <div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-secondary active">
                             <input type="radio" name="options" id="option1" autocomplete="off" ng-click="updateText();"
-                                   checked> Address
+                                   > Address
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option2" autocomplete="off" ng-click="updateText();">
+                            <input type="radio" name="options" id="option2" autocomplete="off" ng-click="updateText();" checked>
                             Default Address(By Location)
                         </label>
                     </div>
@@ -108,7 +101,7 @@
             </div>
 
 
-            <button type="button" class="btn btn-primary" ng-click="submit();">Search</button>
+            <button id="button" type="button" class="btn btn-primary" ng-click="submit();">Search</button>
 
         </div>
 
