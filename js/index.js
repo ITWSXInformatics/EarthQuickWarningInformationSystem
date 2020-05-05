@@ -232,13 +232,13 @@ app.controller('earth', function ($scope, $http) {
 
 						//empty out list of earthquakes each time the button is pushed
             $scope.elist = [];
+            console.log(quake_list);
 
             //add each new earthquake found to the list to display on front end
             for (var i = 0; i < quake_list.length; i++) {
                 item = quake_list[i]["properties"];
                 var d = new Date(item['time']);
                 var n = d.toISOString();
-                $scope.elist.length = 0;
                 $scope.elist.push({
                     location: item['place'],
                     time: n,
@@ -248,7 +248,7 @@ app.controller('earth', function ($scope, $http) {
                 listoutput += "<li>" + item["place"] + " " + item["mag"];
                 listoutput += " " + item["type"] + "</li>";
             }
-
+            console.log($scope.elist);
             $scope.$apply();
 
         }, function errorCallback(response) {
