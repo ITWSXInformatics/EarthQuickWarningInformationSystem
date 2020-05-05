@@ -200,7 +200,7 @@ app.controller('earth', function ($scope, $http) {
                 item = quake_list[i]["properties"];
                 var d = new Date(item['time']);
                 var n = d.toISOString();
-
+                $scope.elist.length = 0;
                 $scope.elist.push({
                     location: item['place'],
                     time: n,
