@@ -6,7 +6,7 @@ A near-real-time earthquake visualization web application
     ~~~~
     npm install
     ~~~~
-    
+
 2. to run the application, run
     ~~~~
     npm start
@@ -14,6 +14,5 @@ A near-real-time earthquake visualization web application
 
 3. to visit the website, go to
     ~~~~
-     http://localhost:3000
+     http://localhost:6789
     ~~~~
-    
