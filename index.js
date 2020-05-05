@@ -1,3 +1,4 @@
+//load all node libraries needed
 const express = require('express');
 var bodyParser = require('body-parser');
 var https = require('https');
@@ -40,15 +41,15 @@ app.get('/', function (req, res) {
 });
 
 
-
+//create server on specified port number
 const server = http.createServer(app);
 
 server.listen(port);
 
 
 
-// app.listen(port, 'localhost');
-
+// function to get the earthquake list through timestamp
+//requests info from usgs api
 async function get_earthquake_list_by_timestamp(start_time, end_time){
 
   var usgs_url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=';
@@ -63,10 +64,9 @@ async function get_earthquake_list_by_timestamp(start_time, end_time){
     return ret;
 }
 
-
+//function to get geocode from tomtom api
 async function geocode_address(address){
 	var base_url = "https://api.tomtom.com/search/2/geocode/";
-	//.json?key=
 	base_url += querystring.escape(address);
 	base_url += ".json?key=";
 	base_url += process.env.GEOCODING_API_KEY;
@@ -117,7 +117,7 @@ app.post("/search",async function (req,res_search){
 		msgPath += "&maxradiuskm=" + radius;
 
 
-
+		//add latitude and longitude to message to send to frontend
 		if("latitude" in req.body && "longitude" in req.body
 			&& req.body["latitude"] != "" && req.body["longitude"] != ""){
 			var latitude = req.body["latitude"];
@@ -125,12 +125,10 @@ app.post("/search",async function (req,res_search){
 			msgPath += ("&longitude=" + longitude);
 			msgPath += ("&latitude=" + latitude);
 		}else{
-
+			//send address to get geocode
 			var address = req.body["address"];
 			var geocode_result = await geocode_address(address);
-			// console.log("=====",geocode_result);
 			try {
-			    // console.log("geocode_result['summary']['numResults']:",geocode_result['summary']['numResults']);
 			    if(geocode_result['summary']['numResults']>0){
                     var latitude = geocode_result["results"][0]["position"]["lat"];
                     var longitude = geocode_result["results"][0]["position"]["lon"];
@@ -202,10 +200,6 @@ app.post("/search",async function (req,res_search){
   		res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": ""});
 
 	}).end();
-
-
-	// res_search.send({"latitude": latitude, "longitude": longitude, "quake_list": []});
-
 });
 
 
@@ -216,7 +210,7 @@ app.post("/search",async function (req,res_search){
 app.post("/api/timeframe",async (req,res)=>{
 	 console.log(req.body);
 
-	 // console.log(chunk);
+	 //get earthquake info and send it to frontend
 	 var start_time = req.body.start_time;
 	 var end_time = req.body.end_time;
 	 console.log(start_time);

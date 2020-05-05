@@ -1,5 +1,7 @@
 $("#optional_address").hide();
 
+//initialize the map object by fetching from api
+// the map is initialized with geolocation first 
 async function initMap() {
     let latitude = "";
     let longitude = "";
@@ -17,6 +19,7 @@ async function initMap() {
         center: myLatLng,
     });
 
+    //draw a circle on the map to show radius
     console.log(map);
     var cityCircle = new google.maps.Circle({
         strokeColor: '#9fff82',
@@ -29,36 +32,18 @@ async function initMap() {
         radius: 100 * 1609.34
     });
 
-
-		/*
-    $("#button").click(() => {
-        //if(not default ){get new ip}
-        if (document.getElementById('option1').checked) {
-            //reset map
-            // add new markers here
-            // Adds a marker to the map and push to the array.
-            var marker = new google.maps.Marker({
-                position: {lat:42,lng:-71},
-                map: map
-            });
-            //get new address, and create new makers
-            map.setCenter({lat:42,lng:-70});
-            // accordingly to radius
-            map.setZoom(9);
-        }
-    })
-		*/
-
 }
 
 
-
+//create the angular application
 let app = angular.module('app', []);
 app.controller('earth', function ($scope, $http) {
 
     $scope.elist = [];
+    //the submit button for searching for an address
     $scope.submit = async function () {
 
+    		//read in values for time, radius and magnitude
         let timeDistance = document.getElementById("timeDistance").value;
         let radius = document.getElementById("radius").value;
         let magnitude = document.getElementById("magnitude").value;
@@ -67,7 +52,7 @@ app.controller('earth', function ($scope, $http) {
         let longitude = "";
         let address = "";
 
-
+        //if address is clicked, use the address given, else use geolocation api
         var checked_left = document.getElementById('option1').checked;
         if (checked_left == false) {
 
@@ -96,7 +81,7 @@ app.controller('earth', function ($scope, $http) {
         console.log(longitude);
         console.log(address);
 
-
+        //send post request to earthquake api
         $http({
             method: 'POST',
             url: '/search',
@@ -112,12 +97,14 @@ app.controller('earth', function ($scope, $http) {
             // this callback will be called asynchronously
             // when the response is available
 
+            //error checking for invalid response
             if (response['status'] === 201) {
                 alert("invalid address, try to include state name, zip code, or country name");
                 return;
             }
 
 
+            //use info from response to move the google map api to the correct location
             if ("latitude" in response["data"] && response["data"]["latitude"] != "" &&
                 "longitude" in response["data"] && response["data"]["longitude"] != "") {
                 let modified_address_url = "https://www.google.com/maps/embed/v1/view?key=AIzaSyCyiNBcDIKlzVhqH8uJpRK3gcxkhI-lS2s";
@@ -136,13 +123,14 @@ app.controller('earth', function ($scope, $http) {
 
 						quake_coords = [];
 
+						//populate the quake coordinates array to set pins on map
 						for (var i = 0; i < quake_list.length; i++) {
 							quake_coords.push([quake_list[i]["geometry"]["coordinates"][1], quake_list[i]["geometry"]["coordinates"][0]]);
 						}
 
 						console.log(quake_coords);
 
-						//Warnings
+						//Warning banners to output on website
 						var danger = '<br /> \
 							<div class="alert alert-danger" role="alert"> \
 								<i class="fas fa-exclamation-triangle"></i> There is an earthquake in your area. Please take shelter. <i class="fas fa-exclamation-triangle"></i> \
@@ -162,6 +150,7 @@ app.controller('earth', function ($scope, $http) {
             var closeQuake = false;
             var nearQuake = false;
 
+            //iterate through quake coordinates to see if any quake is nearby
             for (var x = 0; x < quake_coords.length; x++) {
               //in km
               var dist = calcCrow(response["data"]["latitude"], response["data"]["longitude"], quake_coords[x][0], quake_coords[x][1])
@@ -174,6 +163,7 @@ app.controller('earth', function ($scope, $http) {
               }
             }
 
+            //if any quake is close, display warning banner, else display safe banner
             if (closeQuake == true) {
               document.getElementById("warningArea").innerHTML = danger;
             }
@@ -205,6 +195,7 @@ app.controller('earth', function ($scope, $http) {
 										center: myLatLng,
 								});
 
+								//create new circle for search radius specified
 								console.log(map);
 								var cityCircle = new google.maps.Circle({
 										strokeColor: '#9fff82',
@@ -219,13 +210,7 @@ app.controller('earth', function ($scope, $http) {
 
 								//reset map
 								// add new markers here
-								// Adds a marker to the map and push to the array.
-								/*
-								var marker = new google.maps.Marker({
-										position: {lat:42,lng:-71},
-										map: map
-								});
-								*/
+
 
                 //Place markers on the map for each earthquake
 								for (var x = 0; x < quake_coords.length; x++) {
@@ -234,16 +219,7 @@ app.controller('earth', function ($scope, $http) {
 											map: map
 									});
 								}
-								/*
-								var marker = new google.maps.Marker({
-										position: {lat:44.519100000000002,lng:-115.30800000000001},
-										map: map
-								});
-								var marker2 = new google.maps.Marker({
-										position: {lat:31.9613333,lng:-117.30549999999999},
-										map: map
-								});
-								*/
+
 								//get new address, and create new makers
 								//map.setCenter({lat:37.752113,lng:-122.447578});
 								// accordingly to radius
@@ -254,8 +230,10 @@ app.controller('earth', function ($scope, $http) {
 								map.setZoom(3);
 						}
 
+						//empty out list of earthquakes each time the button is pushed
             $scope.elist = [];
 
+            //add each new earthquake found to the list to display on front end
             for (var i = 0; i < quake_list.length; i++) {
                 item = quake_list[i]["properties"];
                 var d = new Date(item['time']);
@@ -273,7 +251,6 @@ app.controller('earth', function ($scope, $http) {
 
             $scope.$apply();
 
-            // document.getElementById("elist").innerHTML = listoutput;
         }, function errorCallback(response) {
             console.log("test failed");
             console.log(response);
